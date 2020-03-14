@@ -8,14 +8,17 @@ namespace App\Domain\Tasks;
  * @package Domain\Tasks
  */
 class TaskStatus {
-    const PENDING = 0;
-    const COMPLETED = 1;
-    const DELETED = 9;
+    public const
+        DELETED = 0,
+        PENDING = 1,
+        IN_PROGRESS = 2,
+        COMPLETED = 3;
 
     private static $instances = [
-        self::PENDING => null,
-        self::COMPLETED => null,
         self::DELETED => null,
+        self::PENDING => null,
+        self::IN_PROGRESS => null,
+        self::COMPLETED => null,
     ];
 
     private int $value;
@@ -25,7 +28,7 @@ class TaskStatus {
     }
 
     public static function of(int $status): self {
-        if ($status < self::PENDING || $status > self::DELETED) {
+        if ($status < self::DELETED || $status > self::COMPLETED) {
             throw new \InvalidArgumentException("Unknow status value");
         }
 
@@ -38,10 +41,6 @@ class TaskStatus {
 
     public function toInt() {
         return $this->value;
-    }
-
-    public function isCompleted() {
-        return $this->value === self::COMPLETED;
     }
 
     public function equals(self $other) {
