@@ -7,18 +7,20 @@ namespace App\Domain\Tasks;
  * Value object representing task priorities
  * @package Domain\Tasks
  */
-class TaskPriority {
+final class TaskPriority {
     const LOW = 0;
     const AVERAGE = 1;
-    const URGENT = 9;
+    const URGENT = 2;
 
     /**
      * @var self[]
      */
-    private static $instances = [
-        self::LOW => null,
-        self::AVERAGE => null,
-        self::URGENT => null,
+    private static array $instances = [
+        null, null, null
+    ];
+
+    private static array $names = [
+        'LOW', 'AVERAGE', 'URGENT'
     ];
 
     private int $value;
@@ -39,16 +41,20 @@ class TaskPriority {
         return self::$instances[$priority];
     }
 
-    public function toInt() {
-        return $this->value;
+    public function is(int $value) {
+        return $this->value === $value;
     }
-
-    public function isUrgent() {
-        return $this->value === self::URGENT;
-    }
-
 
     public function equals(self $other) {
         return $this->value === $other->value;
     }
+
+    public function toInt() {
+        return $this->value;
+    }
+
+    public function toString() {
+        return self::$names[$this->value];
+    }
+
 }

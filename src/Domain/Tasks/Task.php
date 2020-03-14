@@ -103,7 +103,7 @@ class Task {
     }
 
     public function isLowPriority() : bool {
-        return $this->priority->toInt() === TaskPriority::LOW;
+        return $this->priority->is(TaskPriority::LOW);
     }
 
     public function makeUrgent(): void {
@@ -111,7 +111,7 @@ class Task {
     }
 
     public function isUrgent() : bool {
-        return $this->priority->toInt() === TaskPriority::URGENT;
+        return $this->priority->is(TaskPriority::URGENT);
     }
 
     public function complete(): void {
@@ -119,11 +119,11 @@ class Task {
     }
 
     public function isComplete() : bool{
-        return $this->status->toInt() === TaskStatus::COMPLETED;
+        return $this->status->is(TaskStatus::COMPLETED);
     }
 
     public function isInProgress(): bool {
-       return $this->status->toInt() === TaskStatus::IN_PROGRESS;
+       return $this->status->is(TaskStatus::IN_PROGRESS);
     }
 
     public function delete(): void {
@@ -131,7 +131,7 @@ class Task {
     }
 
     public function isDeleted() : bool{
-        return $this->status->toInt() === TaskStatus::DELETED;
+        return $this->status->is(TaskStatus::DELETED);
     }
 
     public function reSchedule(DateTime $newTime): void {

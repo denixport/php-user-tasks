@@ -7,18 +7,19 @@ namespace App\Domain\Tasks;
  * Value object representing task priorities
  * @package Domain\Tasks
  */
-class TaskStatus {
+final class TaskStatus {
     public const
         DELETED = 0,
         PENDING = 1,
         IN_PROGRESS = 2,
         COMPLETED = 3;
 
-    private static $instances = [
-        self::DELETED => null,
-        self::PENDING => null,
-        self::IN_PROGRESS => null,
-        self::COMPLETED => null,
+    private static array $names = [
+        'DELETED', 'PENDING', 'IN_PROGRESS', 'COMPLETED'
+    ];
+
+    private static array $instances = [
+        null, null, null, null
     ];
 
     private int $value;
@@ -39,11 +40,19 @@ class TaskStatus {
         return self::$instances[$status];
     }
 
-    public function toInt() {
-        return $this->value;
+    public function is(int $value) {
+        return $this->value === $value;
     }
 
     public function equals(self $other) {
         return $this->value === $other->value;
+    }
+
+    public function toInt() {
+        return $this->value;
+    }
+
+    public function toString() {
+        return self::$names[$this->value];
     }
 }
