@@ -5,6 +5,6 @@ namespace App\Domain\Tasks;
 
 interface TaskRepository {
     public function get(int $id): Task;
-
     public function store(Task $task): void;
+    public function delete(int $id): void;
 }
