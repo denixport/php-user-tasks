@@ -1,7 +1,5 @@
-var/
-tmp/
-vendor/
 .idea/
 .vscode/
-composer.lock
-composer.phar
+coverage/
+tmp/
+vendor/
