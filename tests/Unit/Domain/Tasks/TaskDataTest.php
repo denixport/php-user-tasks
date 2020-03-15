@@ -3,7 +3,7 @@
 namespace Tests\Unit\Domain\Tasks;
 
 use App\Domain\Common\Values\DateTime;
-use App\Domain\Tasks\{TaskData, TaskPriority, TaskDescription, TaskStatus};
+use App\Domain\Tasks\{TaskData, TaskPriority, TaskStatus};
 use PHPUnit\Framework\TestCase;
 
 class TaskDataTest extends TestCase {
@@ -20,8 +20,8 @@ class TaskDataTest extends TestCase {
 
         $encoded = \json_encode($data);
 
-        $expected = '{"id":999999,"userId":999,"time":"1970-01-01T00:00:00+0000",'.
-            '"priority":"URGENT","status":"IN_PROGRESS","title":"My new Task",'.
+        $expected = '{"id":999999,"userId":999,"time":"1970-01-01T00:00:00+0000",' .
+            '"priority":"URGENT","status":"IN_PROGRESS","title":"My new Task",' .
             '"description":"My new Task description"}';
 
         $this->assertEquals($expected, $encoded);

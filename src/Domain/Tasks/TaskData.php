@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Tasks;
 
-use App\Domain\Common\Values\DateTime;
+use App\Domain\Common\Values\Date;
 
 /**
  * TaskData is DTO for task
@@ -12,7 +12,7 @@ use App\Domain\Common\Values\DateTime;
 class TaskData implements \JsonSerializable {
     public int $id;
     public int $userId;
-    public DateTime $time;
+    public Date $date;
     public TaskPriority $priority;
     public TaskStatus $status;
     public string $title;
@@ -22,7 +22,7 @@ class TaskData implements \JsonSerializable {
         return [
             'id' => $this->id,
             'userId' => $this->userId,
-            'time' => $this->time->toString(),
+            'date' => $this->date->toString(),
             'priority' => $this->priority->toString(),
             'status' => $this->status->toString(),
             'title' => $this->title,
