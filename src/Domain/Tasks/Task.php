@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Tasks;
 
-use App\Domain\Common\Values\DateTime;
+use App\Domain\Common\Values\Date;
 use App\Domain\Services\IdGenerator;
 
 class Task {
@@ -17,7 +17,7 @@ class Task {
      * @var int
      */
     public int $userId;
-    public DateTime $time;
+    public Date $date;
     public TaskPriority $priority;
     public TaskStatus $status;
     public TaskDescription $description;
@@ -25,14 +25,14 @@ class Task {
     private function __construct(
         int $id,
         int $userId,
-        DateTime $time,
+        Date $date,
         TaskDescription $description,
         TaskPriority $priority,
         TaskStatus $status
     ) {
         $this->id = $id;
         $this->userId = $userId;
-        $this->time = $time;
+        $this->date = $date;
         $this->description = $description;
         $this->priority = $priority;
         $this->status = $status;
@@ -40,7 +40,7 @@ class Task {
 
     public static function createNew(
         int $userId,
-        DateTime $time,
+        Date $date,
         TaskDescription $description,
         TaskPriority $priority = null
     ) {
@@ -55,7 +55,7 @@ class Task {
         return self::create(
             $id,
             $userId,
-            $time,
+            $date,
             $description,
             $priority,
             $status
@@ -65,7 +65,7 @@ class Task {
     public static function create(
         int $id,
         int $userId,
-        DateTime $time,
+        Date $date,
         TaskDescription $description,
         TaskPriority $priority,
         TaskStatus $status
@@ -79,15 +79,15 @@ class Task {
         }
 
         // Business rule: can create only completed tasks in the past
-        $mark = DateTime::fromDateTime(new \DateTime('-1 min'));
-        if ($status->toInt() !== TaskStatus::COMPLETED && $time->isBefore($mark)) {
+        $cur = Date::current();
+        if ($status->toInt() !== TaskStatus::COMPLETED && $date->isBefore($cur)) {
             throw new \DomainException("Can not create active task in the past");
         }
 
         return new self(
             $id,
             $userId,
-            $time,
+            $date,
             $description,
             $priority,
             $status
@@ -98,11 +98,11 @@ class Task {
         $this->description = $newDescription;
     }
 
-    public function isPending() : bool{
+    public function isPending(): bool {
         return $this->status->toInt() === TaskStatus::PENDING;
     }
 
-    public function isLowPriority() : bool {
+    public function isLowPriority(): bool {
         return $this->priority->is(TaskPriority::LOW);
     }
 
@@ -110,7 +110,7 @@ class Task {
         $this->priority = TaskPriority::of(TaskPriority::URGENT);
     }
 
-    public function isUrgent() : bool {
+    public function isUrgent(): bool {
         return $this->priority->is(TaskPriority::URGENT);
     }
 
@@ -118,27 +118,27 @@ class Task {
         $this->status = TaskStatus::of(TaskStatus::COMPLETED);
     }
 
-    public function isComplete() : bool{
+    public function isComplete(): bool {
         return $this->status->is(TaskStatus::COMPLETED);
     }
 
     public function isInProgress(): bool {
-       return $this->status->is(TaskStatus::IN_PROGRESS);
+        return $this->status->is(TaskStatus::IN_PROGRESS);
     }
 
     public function delete(): void {
         $this->status = TaskStatus::of(TaskStatus::DELETED);
     }
 
-    public function isDeleted() : bool{
+    public function isDeleted(): bool {
         return $this->status->is(TaskStatus::DELETED);
     }
 
-    public function reSchedule(DateTime $newTime): void {
-        if ($newTime->isBefore($this->time)) {
+    public function reSchedule(Date $newDate): void {
+        if ($newDate->isBefore($this->date)) {
             throw new \DomainException("Can not re-schedule to the past");
         }
-        $this->time = $newTime;
+        $this->date = $newDate;
     }
 
 

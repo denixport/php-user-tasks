@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Tasks;
 
-interface TasksRepository {
+interface TaskRepository {
     public function get(int $id): Task;
+
     public function store(Task $task): void;
+
     public function delete(int $id): void;
 }
