@@ -29,6 +29,15 @@ final class TaskPriority {
         $this->value = $priority;
     }
 
+    public static function parse(string $priority) {
+        $index = array_search($priority, self::$names, true);
+        if ($index === null || $index === false) {
+            throw new \InvalidArgumentException("Unknow priority '{$priority}'");
+        }
+
+        return self::of($index);
+    }
+
     public static function of(int $priority): self {
         if ($priority < self::LOW || $priority > self::URGENT) {
             throw new \InvalidArgumentException("Unknow priority value");

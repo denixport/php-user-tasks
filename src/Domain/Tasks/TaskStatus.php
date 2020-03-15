@@ -28,6 +28,15 @@ final class TaskStatus {
         $this->value = $priority;
     }
 
+    public static function parse(string $status) {
+        $index = array_search($status, self::$names, true);
+        if ($index === null || $index === false) {
+            throw new \InvalidArgumentException("Unknow status '{$status}'");
+        }
+
+        return self::of($index);
+    }
+
     public static function of(int $status): self {
         if ($status < self::DELETED || $status > self::COMPLETED) {
             throw new \InvalidArgumentException("Unknow status value");
