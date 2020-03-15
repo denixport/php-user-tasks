@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Domain\Common;
+namespace Tests\Unit\Domain\Common\Values;
 
 use App\Domain\Common\Values\DateTime;
 use PHPUnit\Framework\TestCase;
