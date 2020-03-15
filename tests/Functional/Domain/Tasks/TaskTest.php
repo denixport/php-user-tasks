@@ -2,20 +2,11 @@
 
 namespace Tests\Functional\Domain\Tasks;
 
-use App\Domain\Common\Values\DateTime;
-use App\Domain\Tasks\{Task, TaskDescription, TaskPriority, TaskStatus};
+use App\Domain\Common\Values\Date;
+use App\Domain\Tasks\{Task, TaskDescription, TaskPriority};
 use PHPUnit\Framework\TestCase;
 
 class TaskTest extends TestCase {
-
-    private function makeSimpleTask() : Task {
-        return Task::createNew(
-            999,
-            DateTime::now(),
-            new TaskDescription('New Taks', 'New Task Description'),
-            TaskPriority::of(TaskPriority::LOW),
-        );
-    }
 
     public function testNewTaskGetsId() {
         $task = $this->makeSimpleTask();
@@ -26,11 +17,20 @@ class TaskTest extends TestCase {
         $this->assertTrue($task->isPending());
     }
 
+    private function makeSimpleTask(): Task {
+        return Task::createNew(
+            999,
+            Date::current(),
+            new TaskDescription('New Taks', 'New Task Description'),
+            TaskPriority::of(TaskPriority::LOW),
+            );
+    }
+
     public function testCanNotCreateActiveTasksInThePast() {
         $this->expectException(\DomainException::class);
         $task = Task::createNew(
             999,
-            DateTime::fromDateTime(new \DateTime('-1 day')),
+            Date::fromDateTime(new \DateTime('-1 day')),
             new TaskDescription('New Taks', 'New Task Description'),
             TaskPriority::of(TaskPriority::LOW)
         );
