@@ -22,10 +22,16 @@ src/Domain      - domain model
     /Tasks      - task context
     /Users      - user context
 ```        
-To run tests
+To run the app
+
+`> git clone https://github.com/denixport/php-user-tasks.git`
+
+`> cd php-user-tasks`
+
+`> composer install`
+
 `> composer run test`
 
-To boot the app 
 `> composer run serve`
 
 To run in container
